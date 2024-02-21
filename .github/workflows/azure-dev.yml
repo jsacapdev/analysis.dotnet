@@ -10,7 +10,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      SOLUTION: Analysis.sln    
+      SOLUTION: Analysis.sln
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}      
     steps:
       - name: Checkout
         uses: actions/checkout@v4    
@@ -28,3 +30,15 @@ jobs:
 
       - name: Test with the dotnet CLI
         run: dotnet test
+
+      - name: SonarScanner for .NET 8 with pull request decoration support
+        uses: highbyte/sonarscan-dotnet@v2.3.1
+        with:
+          # The key of the SonarQube project
+          sonarProjectKey: jsacapdev_analysis.dotnet
+          # The name of the SonarQube project
+          sonarProjectName:  analysis.dotnet
+          # The name of the SonarQube organization in SonarCloud. For hosted SonarQube, skip this setting.
+          sonarOrganization: jsacapdev
+          # Optional command arguments to dotnet build
+          dotnetBuildArguments: ${{ vars.SOLUTION }}
