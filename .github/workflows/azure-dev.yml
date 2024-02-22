@@ -42,3 +42,8 @@ jobs:
           sonarOrganization: jsacapdev
           # Optional command arguments to dotnet build
           dotnetBuildArguments: ${{ vars.SOLUTION }}
+          # Optional command arguments to dotnet test
+          dotnetTestArguments: ${{ vars.SOLUTION }} --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+          # Optional extra command arguments the the SonarScanner 'begin' command
+          sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"        
+
